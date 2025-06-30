@@ -1,6 +1,7 @@
 services:
   front:
     build: ./front/
+    container_name: next_todo_front
     volumes:
       - ./front:/front
     ports:
@@ -8,7 +9,21 @@ services:
   
   back:
     build: ./back/
+    container_name: next_todo_back
     volumes:
       - ./back:/back
     ports:
       - 8000:8000
+  
+  db:
+    image: mysql:8.0
+    container_name: next_todo_mysql
+    volumes:
+      - next_todo_db:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=dev
+volumes:
+  next_todo_db:
